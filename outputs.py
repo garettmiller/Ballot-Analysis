@@ -32,30 +32,23 @@ def plot_important_components(pca, candidates):
         plt.savefig('output_files/pca_components/component' + str(i + 1) + '.png')
 
 
-def prepare_pca_12_params(cluster1, cluster2, cluster3, rotated_momentum, rotated_left_unity):
-    return cluster1[:, :1], cluster1[:, 1:2], 'bo', cluster2[:, :1], cluster2[:, 1:2], 'ro', cluster3[:, :1], cluster3[:, 1:2], 'yo', rotated_momentum[:, :1], rotated_momentum[:, 1:2], 'g*', rotated_left_unity[:, :1], rotated_left_unity[:, 1:2], 'g*'
-
-
-def prepare_pca_13_params(cluster1, cluster2, cluster3, rotated_momentum, rotated_left_unity):
-    return cluster1[:, :1], cluster1[:, 2:3], 'bo', cluster2[:, :1], cluster2[:, 2:3], 'ro', cluster3[:, :1], cluster3[:, 2:3], 'yo', rotated_momentum[:, :1], rotated_momentum[:, 1:2], 'g*', rotated_left_unity[:, :1], rotated_left_unity[:, 1:2], 'g*'
-
-
-def prepare_pca_16_params(cluster1, cluster2, cluster3, rotated_momentum, rotated_left_unity):
-    return cluster1[:, :1], cluster1[:, 5:6], 'bo', cluster2[:, :1], cluster2[:, 5:6], 'ro', cluster3[:, :1], cluster3[:, 5:6], 'yo', rotated_momentum[:, :1], rotated_momentum[:, 1:2], 'g*', rotated_left_unity[:, :1], rotated_left_unity[:, 1:2], 'g*'
-
-
-def plot_pca_ballots(cluster1, cluster2, cluster3, rotated_momentum, rotated_left_unity):
-    plt.plot(*prepare_pca_12_params(np.array(cluster1), np.array(cluster2), np.array(cluster3), rotated_momentum,
-                                    rotated_left_unity))
+def plot_pca_ballots(cluster1, cluster2, cluster3, rotated_slates):
+    group1, = plt.plot(cluster1[:, :1], cluster1[:, 1:2], 'bo')
+    group2, = plt.plot(cluster2[:, :1], cluster2[:, 1:2], 'ro')
+    group3, = plt.plot(cluster3[:, :1], cluster3[:, 1:2], 'yo')
+    group4, = plt.plot(rotated_slates[:, :1], rotated_slates[:, 1:2], 'g*')
+    plt.legend((group1, group2, group3, group4), ("Unaligned", "Left Unity", "Momentum", "Slate Voting Guides"))
     plt.title("Voter Plot Principal Axes 1 and 2")
     plt.xlabel("Principal Axis 1: Caucus")
     plt.ylabel("Principal Axis 2: Buxmont")
-    plt.legend(["Unaligned", "Left Unity", "Momentum","Slate Voting Guides"])
     plt.savefig('output_files/vote_plots/PCA12.png')
     plt.clf()
 
-    plt.plot(*prepare_pca_13_params(np.array(cluster1), np.array(cluster2), np.array(cluster3), rotated_momentum,
-                                    rotated_left_unity))
+    group1, = plt.plot(cluster3[:, :1], cluster3[:, 2:3], 'yo', label="Momentum")
+    group2, = plt.plot(cluster1[:, :1], cluster1[:, 2:3], 'bo', label="Unaligned")
+    group3, = plt.plot(rotated_slates[:, :1], rotated_slates[:, 2:3], 'g*', label="Slate Voting Guides")
+    group4, = plt.plot(cluster2[:, :1], cluster2[:, 2:3], 'ro', label="Left Unity")
+    plt.legend((group1, group2, group3, group4), ("Unaligned", "Left Unity", "Momentum", "Slate Voting Guides"))
     plt.title("Voter Plot Principal Axes 1 and 3")
     plt.xlabel("Principal Axis 1: Caucus")
     plt.ylabel("Principal Axis 3: Uncast Votes")
@@ -63,8 +56,11 @@ def plot_pca_ballots(cluster1, cluster2, cluster3, rotated_momentum, rotated_lef
     plt.savefig('output_files/vote_plots/PCA13.png')
     plt.clf()
 
-    plt.plot(*prepare_pca_16_params(np.array(cluster1), np.array(cluster2), np.array(cluster3), rotated_momentum,
-                                    rotated_left_unity))
+    group1, = plt.plot(cluster1[:, :1], cluster1[:, 5:6], 'bo', label="Unaligned")
+    group2, = plt.plot(cluster2[:, :1], cluster2[:, 5:6], 'ro', label="Left Unity")
+    group3, = plt.plot(cluster3[:, :1], cluster3[:, 5:6], 'yo', label="Momentum")
+    group4, = plt.plot(rotated_slates[:, :1], rotated_slates[:, 5:6], 'g*', label="Slate Voting Guides")
+    plt.legend((group1, group2, group3, group4), ("Unaligned", "Left Unity", "Momentum", "Slate Voting Guides"))
     plt.title("Voter Plot Principal Axes 1 and 6")
     plt.xlabel("Principal Axis 1: Caucus")
     plt.ylabel("Principal Axis 6: Identity")
@@ -83,15 +79,28 @@ def print_slates(candidates, momentum_slate, left_unity_slate):
         print(candidates[x - 1])
 
 
-def plot_vote_counts(vote_counts, candidates):
-    print(vote_counts[10, 1:26])
+def plot_vote_counts(cluster1, cluster2, cluster3, candidates):
     for candidate_index in range(len(candidates)):
-        candidate_vote_counts = vote_counts[candidate_index, 1:26]
-        plt.bar(range(1, 26), candidate_vote_counts)
+        candidate_vote_counts1 = cluster1[candidate_index, 1:26]
+        candidate_vote_counts2 = cluster2[candidate_index, 1:26]
+        candidate_vote_counts3 = cluster3[candidate_index, 1:26]
+
+        f = open('output_files/vote_counts/Numbers/' + candidates[candidate_index] + '.txt', 'w')
+        f.write('Left Unity: ' + str(candidate_vote_counts1) + '\n')
+        f.write('Momentum: ' + str(candidate_vote_counts2) + '\n')
+        f.write('Unaligned ' + str(candidate_vote_counts3) + '\n')
+        f.close()
+
+        bar1 = plt.bar(range(1, 26), candidate_vote_counts3, color="b")
+        bar2 = plt.bar(range(1, 26), candidate_vote_counts1, color="r")
+        bar3 = plt.bar(range(1, 26), candidate_vote_counts2, color="y")
+
+        plt.legend((bar1, bar2, bar3), ("Unaligned", "Left Unity", "Momentum"))
         plt.title("Vote Distribution for " + candidates[candidate_index])
         plt.xlabel("Score Assigned")
         plt.ylabel("Number of Votes")
-        plt.savefig('output_files/vote_counts/' + candidates[candidate_index] + ".png")
+        plt.ylim((0, 85))
+        #plt.savefig('output_files/vote_counts/Images/' + candidates[candidate_index] + ".png")
         plt.clf()
 
 

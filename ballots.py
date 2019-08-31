@@ -72,16 +72,21 @@ def split_clusters(reduced_array, cluster_labels):
 
 
 def get_vote_counts_for_candidate(ballots, num_candidates, num_votes):
-    counts = np.zeros((num_candidates, num_votes + 1))
-    np_ballots = np.array(ballots)
+    counts = np.zeros((num_candidates, num_votes + 1), dtype=np.int8)
     for i in range(num_candidates):
-        votes_for_candidate = np_ballots[:, i:i + 1]
+        votes_for_candidate = ballots[:, i:i + 1]
         for vote in votes_for_candidate:
             counts[i][vote[0]] += 1
 
     return counts
 
 
+def get_clustered_vote_counts(cluster1, cluster2, cluster3, num_candidates, num_votes):
+    votes1 = get_vote_counts_for_candidate(cluster1, num_candidates, num_votes)
+    votes2 = get_vote_counts_for_candidate(cluster2, num_candidates, num_votes)
+    votes3 = get_vote_counts_for_candidate(cluster3, num_candidates, num_votes)
+
+    return votes1, votes2, votes3
 
 
 momentum_slate = [[11, 44, 18, 15, 47, 39, 13, 31, 34, 8, 5, 38, 37, 2, 4, 26, 46, 43, 19, 32, 48, 6, 7, 25, 21, 3, 33, 50, 16, 17]]
@@ -102,13 +107,17 @@ rotated_momentum = pca.transform(transformed_momentum)
 transformed_left_unity = transform_matrix(left_unity_slate, num_candidates)
 rotated_left_unity = pca.transform(transformed_left_unity)
 
+rotated_slates = np.array([rotated_momentum[0], rotated_left_unity[0]])
+
 cluster1, cluster2, cluster3 = split_clusters(reduced_array, cluster_labels)
+vote_cluster1, vote_cluster2, vote_cluster3 = split_clusters(transformed_ballots, cluster_labels)
 
-#outputs.plot_pca_ballots(cluster1, cluster2, cluster3, rotated_momentum, rotated_left_unity)
+#outputs.plot_pca_ballots(np.array(cluster1), np.array(cluster2), np.array(cluster3), rotated_slates)
 
-#vote_counts = get_vote_counts_for_candidate(transformed_ballots, num_candidates, num_votes)
-#outputs.plot_vote_counts(vote_counts, candidates)
+votes1, votes2, votes3 = get_clustered_vote_counts(np.array(vote_cluster1), np.array(vote_cluster2), np.array(vote_cluster3), num_candidates, num_votes)
+#print(votes1)
+outputs.plot_vote_counts(votes1, votes2, votes3, candidates)
 
 #outputs.print_slates(candidates, momentum_slate, left_unity_slate)
 
-outputs.print_pca_components(pca)
+#outputs.print_pca_components(pca)
