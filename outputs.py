@@ -85,16 +85,16 @@ def plot_vote_counts(cluster1, cluster2, cluster3, candidates):
         candidate_vote_counts3 = cluster3[candidate_index, 1:52]
 
         f = open('output_files/vote_counts/Numbers/' + candidates[candidate_index] + '.txt', 'w')
-        f.write('Left Unity: ' + str(candidate_vote_counts1) + '\n')
-        f.write('Momentum: ' + str(candidate_vote_counts2) + '\n')
-        f.write('Unaligned ' + str(candidate_vote_counts3) + '\n')
+        f.write('Momentum: ' + str(candidate_vote_counts1) + '\n')
+        f.write('Unaligned: ' + str(candidate_vote_counts2) + '\n')
+        f.write('Left Unity ' + str(candidate_vote_counts3) + '\n')
         f.close()
 
-        bar1 = plt.bar(range(1, 52), candidate_vote_counts3, color="b")
-        bar2 = plt.bar(range(1, 52), candidate_vote_counts1, color="r")
-        bar3 = plt.bar(range(1, 52), candidate_vote_counts2, color="y")
+        bar1 = plt.bar(range(1, 52), candidate_vote_counts3, color="r")
+        bar2 = plt.bar(range(1, 52), candidate_vote_counts1, color="y")
+        bar3 = plt.bar(range(1, 52), candidate_vote_counts2, color="b")
 
-        plt.legend((bar1, bar2, bar3), ("Unaligned", "Left Unity", "Momentum"))
+        plt.legend((bar1, bar2, bar3), ("Momentum", "Unaligned", "Left Unity"))
         plt.title("Vote Distribution for " + candidates[candidate_index])
         plt.xlabel("Score Assigned")
         plt.ylabel("Number of Votes")

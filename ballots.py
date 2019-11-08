@@ -140,9 +140,9 @@ vote_cluster1, vote_cluster2, vote_cluster3 = split_clusters(transformed_ballots
 
 #outputs.plot_pca_ballots(np.array(cluster1), np.array(cluster2), np.array(cluster3), rotated_slates)
 
-#votes1, votes2, votes3 = get_clustered_vote_counts(np.array(vote_cluster1), np.array(vote_cluster2), np.array(vote_cluster3), num_candidates, num_candidates)
+votes1, votes2, votes3 = get_clustered_vote_counts(np.array(vote_cluster1), np.array(vote_cluster2), np.array(vote_cluster3), num_candidates, num_candidates)
 #print(votes1)
-#outputs.plot_vote_counts(votes1, votes2, votes3, candidates)
+outputs.plot_vote_counts(votes1, votes2, votes3, candidates)
 
 #outputs.print_slates(candidates, momentum_slate, left_unity_slate)
 
