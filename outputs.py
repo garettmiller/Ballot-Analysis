@@ -109,3 +109,22 @@ def print_pca_components(pca):
         f.write(str(pca.components_[i]))
         f.close()
 
+
+def print_totals(pca, cluster_counts):
+    f = open('output_files/totals.txt', 'w')
+    print(pca.noise_variance_)
+    print(pca.explained_variance_)
+
+    cluster_titles = ['Momentum', 'Left Unity', 'Unaligned']
+
+    f.write('Ballot Analysis Totals')
+
+    f.write('\n\nCluster Counts\n')
+    for cluster in range(len(cluster_counts)):
+        f.write('Voters in ' + str(cluster_titles[cluster]) + ': ' + str(cluster_counts[cluster]) + '\n')
+
+    f.write('\n\n\nExplained Variance Ratios by Component\n')
+    for component in range(len(pca.explained_variance_ratio_)):
+        f.write('Component ' + str(component + 1) + ': ' + str(pca.explained_variance_ratio_[component]) + '\n')
+    f.close()
+

@@ -1,0 +1,25 @@
+Ballot Analysis Totals
+
+Cluster Counts
+Voters in Momentum: 108
+Voters in Left Unity: 136
+Voters in Unaligned: 89
+
+
+
+Explained Variance Ratios by Component
+Component 1: 0.6075315558717216
+Component 2: 0.06543094871160327
+Component 3: 0.04736005364851186
+Component 4: 0.03241234723041403
+Component 5: 0.01984533066569308
+Component 6: 0.016842343371471582
+Component 7: 0.014263892893402092
+Component 8: 0.012637764762722504
+Component 9: 0.011058246022232925
+Component 10: 0.010568084895258074
+Component 11: 0.009193878711134754
+Component 12: 0.008971310571566206
+Component 13: 0.008322825327186933
+Component 14: 0.007837583496503474
+Component 15: 0.007152702636361794
