@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 
@@ -39,9 +38,13 @@ def get_ballots_and_candidates(file_address, num_votes):
             candidates[len(candidates)] = candidate
 
     # Remove title
-    candidates.remove(candidates[-1])
+#    candidates.remove(candidates[-1])
     return ballots, candidates
 
+
+def get_slate_keys(slate, candidates):
+    candidate_names = list(candidates.values())
+    return [[candidate_names.index(candidate) for candidate in slate[0]]]
 
 def transform_matrix(ballots, num_candidates):
     """Transform ballots into 'rank' matrices. The first candidate voted for by a voter gets rank 25.
@@ -110,7 +113,7 @@ def get_cluster_counts(cluster_labels):
 # left_unity_slate = [[24, 12, 23, 30, 27, 14, 20, 28, 49, 35, 42, 41, 51, 36, 9, 1, 29, 40]]
 
 ## 2021 slates
-left_unity_slate = [['Anlin Wang', 'Sal H', 'Julia Alekseyeva', 'Meag Jae Kaman', 'Ron Joseph', 'Austin Binns', 'Melissa Duvelsdorf',
+lu_slate = [['Anlin Wang', 'Sal H', 'Julia Alekseyeva', 'Meag Jae Kaman', 'Ron Joseph', 'Austin Binns', 'Melissa Duvelsdorf',
                      'Aliyah Bixby-Driesen', 'Michele Rossi', 'Shawn Hogan', 'Sanwal Yousaf', 'Emily Berkowitz', 'Matt Chewning',
                      'Francisco Diez', 'Will M', 'Matthew Zanowic', 'Mike Dewar', 'Sam Layding', 'Patrick Wargo', 'Daisy Confoy', 'Rebecca Johnson']]
 br_slate = [['Bill Bradley', 'John Campbell', 'Amanda Fox', 'Dave Fox', 'Ethan Hill', 'K.T. Liberato']]
@@ -123,20 +126,23 @@ br_slate = [['Bill Bradley', 'John Campbell', 'Amanda Fox', 'Dave Fox', 'Ethan H
 num_candidates = 44
 
 ballots, candidates = get_ballots_and_candidates("include/2021ballots.txt", num_candidates)
-transformed_ballots = transform_matrix(ballots, num_candidates)
 
+lu_slate_keys = get_slate_keys(lu_slate, candidates)
+br_slate_keys = get_slate_keys(br_slate, candidates)
 print(candidates)
+
+transformed_ballots = transform_matrix(ballots, num_candidates)
 
 reduced_array, pca = do_pca(transformed_ballots)
 cluster_labels = KMeans(n_clusters=3, n_init=100).fit_predict(reduced_array)
 
-transformed_momentum = transform_matrix(momentum_slate, num_candidates)
-rotated_momentum = pca.transform(transformed_momentum)
+transformed_br = transform_matrix(br_slate, num_candidates)
+rotated_br = pca.transform(transformed_br)
 
-transformed_left_unity = transform_matrix(left_unity_slate, num_candidates)
-rotated_left_unity = pca.transform(transformed_left_unity)
+transformed_lu = transform_matrix(lu_slate, num_candidates)
+rotated_lu = pca.transform(transformed_lu)
 
-rotated_slates = np.array([rotated_momentum[0], rotated_left_unity[0]])
+rotated_slates = np.array([rotated_br[0], rotated_lu[0]])
 
 cluster1, cluster2, cluster3 = split_clusters(reduced_array, cluster_labels)
 vote_cluster1, vote_cluster2, vote_cluster3 = split_clusters(transformed_ballots, cluster_labels)
