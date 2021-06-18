@@ -11,6 +11,7 @@ def read_file(file_address):
     lines = ballot_file.readlines()
     # Remove num candidates and votes per ballot
     lines.remove(lines[0])
+    lines.remove(lines[1])
     return lines
 
 
@@ -19,7 +20,7 @@ def get_ballots_and_candidates(file_address, num_votes):
     lines = read_file(file_address)
 
     ballots = [[0] * num_votes for i in range(333)]
-    candidates = []
+    candidates = {}
     is_ballot = True
     ballot_num = 0
     for ballot in lines:
@@ -35,7 +36,7 @@ def get_ballots_and_candidates(file_address, num_votes):
                 ballot_num += 1
         else:
             candidate = ballot.replace('"', '').replace('\n', '')
-            candidates.insert(len(candidates), candidate)
+            candidates[len(candidates)] = candidate
 
     # Remove title
     candidates.remove(candidates[-1])
@@ -103,17 +104,28 @@ def get_cluster_counts(cluster_labels):
     return cluster_counts
 
 
+## 2019 slates
+# momentum_slate = [[11, 44, 18, 15, 47, 39, 13, 31, 34, 8, 5, 38, 37, 2, 4, 26, 46, 43, 19, 32, 48, 6, 7, 25, 21, 3, 33, 50, 16, 17]]
+# left_unity_slate_dep = [[27, 14, 12, 24, 23, 30, 20, 49, 42, 35, 41, 51]]
+# left_unity_slate = [[24, 12, 23, 30, 27, 14, 20, 28, 49, 35, 42, 41, 51, 36, 9, 1, 29, 40]]
 
-momentum_slate = [[11, 44, 18, 15, 47, 39, 13, 31, 34, 8, 5, 38, 37, 2, 4, 26, 46, 43, 19, 32, 48, 6, 7, 25, 21, 3, 33, 50, 16, 17]]
-left_unity_slate_dep = [[27, 14, 12, 24, 23, 30, 20, 49, 42, 35, 41, 51]]
-left_unity_slate = [[24, 12, 23, 30, 27, 14, 20, 28, 49, 35, 42, 41, 51, 36, 9, 1, 29, 40]]
+## 2021 slates
+left_unity_slate = [['Anlin Wang', 'Sal H', 'Julia Alekseyeva', 'Meag Jae Kaman', 'Ron Joseph', 'Austin Binns', 'Melissa Duvelsdorf',
+                     'Aliyah Bixby-Driesen', 'Michele Rossi', 'Shawn Hogan', 'Sanwal Yousaf', 'Emily Berkowitz', 'Matt Chewning',
+                     'Francisco Diez', 'Will M', 'Matthew Zanowic', 'Mike Dewar', 'Sam Layding', 'Patrick Wargo', 'Daisy Confoy', 'Rebecca Johnson']]
+br_slate = [['Bill Bradley', 'John Campbell', 'Amanda Fox', 'Dave Fox', 'Ethan Hill', 'K.T. Liberato']]
 
-num_candidates = 51
 
-ballots, candidates = get_ballots_and_candidates("./include/ballots10 (1).txt", num_candidates)
+## 2019 num candidates
+#num_candidates = 51
+
+## 2021 num candidates
+num_candidates = 44
+
+ballots, candidates = get_ballots_and_candidates("include/2021ballots.txt", num_candidates)
 transformed_ballots = transform_matrix(ballots, num_candidates)
 
-
+print(candidates)
 
 reduced_array, pca = do_pca(transformed_ballots)
 cluster_labels = KMeans(n_clusters=3, n_init=100).fit_predict(reduced_array)

@@ -111,7 +111,7 @@ def print_pca_components(pca):
 
 
 def print_totals(pca, cluster_counts):
-    f = open('output_files/totals.txt', 'w')
+    f = open('output_files/2019/totals.txt', 'w')
     print(pca.noise_variance_)
     print(pca.explained_variance_)
 
