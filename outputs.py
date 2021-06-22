@@ -28,10 +28,10 @@ def plot_important_components(pca, candidates):
         plt.xlabel("Candidate")
         plt.ylabel("Candidate's Relative Alignment to Component")
 
-        plt.savefig('output_files/pca_components/component' + str(i + 1) + '.png')
+        plt.savefig('output_files/2021/pca_components/component' + str(i + 1) + '.png')
 
 
-def plot_pca_ballots(cluster1, cluster2, cluster3, rotated_slates):
+def plot_pca_ballots(cluster1, cluster2, cluster3, cluster4, cluster5, cluster6, rotated_slates):
     group1, = plt.plot(cluster1[:, :1], cluster1[:, 1:2], 'yo')
     group2, = plt.plot(cluster2[:, :1], cluster2[:, 1:2], 'ro')
     group3, = plt.plot(cluster3[:, :1], cluster3[:, 1:2], 'bo')
@@ -40,7 +40,7 @@ def plot_pca_ballots(cluster1, cluster2, cluster3, rotated_slates):
     plt.title("Voter Plot Principal Axes 1 and 2")
     plt.xlabel("Principal Axis 1: Caucus")
     plt.ylabel("Principal Axis 2: Buxmont")
-    plt.savefig('output_files/vote_plots/PCA12.png')
+    plt.savefig('output_files/2021/vote_plots/PCA12.png')
     plt.clf()
 
     group1, = plt.plot(cluster1[:, :1], cluster1[:, 2:3], 'yo')
@@ -52,7 +52,7 @@ def plot_pca_ballots(cluster1, cluster2, cluster3, rotated_slates):
     plt.xlabel("Principal Axis 1: Caucus")
     plt.ylabel("Principal Axis 3: Uncast Votes")
     #plt.legend(["Unaligned", "Left Unity", "Momentum", "Slate Voting Guides"])
-    plt.savefig('output_files/vote_plots/PCA13.png')
+    plt.savefig('output_files/2021/vote_plots/PCA13.png')
     plt.clf()
 
     group1, = plt.plot(cluster1[:, :1], cluster1[:, 5:6], 'yo')
@@ -64,7 +64,7 @@ def plot_pca_ballots(cluster1, cluster2, cluster3, rotated_slates):
     plt.xlabel("Principal Axis 1: Caucus")
     plt.ylabel("Principal Axis 6: Identity")
     #plt.legend(["Unaligned", "Left Unity", "Momentum", "Slate Voting Guides"])
-    plt.savefig('output_files/vote_plots/PCA16.png')
+    plt.savefig('output_files/2021/vote_plots/PCA16.png')
     plt.clf()
 
 
@@ -78,50 +78,51 @@ def print_slates(candidates, momentum_slate, left_unity_slate):
         print(candidates[x - 1])
 
 
-def plot_vote_counts(cluster1, cluster2, cluster3, candidates):
+def plot_vote_counts(clusters, candidates):
     for candidate_index in range(len(candidates)):
-        candidate_vote_counts1 = cluster1[candidate_index, 1:52]
-        candidate_vote_counts2 = cluster2[candidate_index, 1:52]
-        candidate_vote_counts3 = cluster3[candidate_index, 1:52]
+        candidate_vote_counts=[cluster[candidate_index, 1:45] for cluster in clusters]
 
-        f = open('output_files/vote_counts/Numbers/' + candidates[candidate_index] + '.txt', 'w')
-        f.write('Momentum: ' + str(candidate_vote_counts1) + '\n')
-        f.write('Unaligned: ' + str(candidate_vote_counts2) + '\n')
-        f.write('Left Unity ' + str(candidate_vote_counts3) + '\n')
-        f.close()
+        # f = open('output_files/2021/vote_counts/numbers/' + candidates[candidate_index] + '.txt', 'w')
+        # f.write('Momentum: ' + str(candidate_vote_counts1) + '\n')
+        # f.write('Unaligned: ' + str(candidate_vote_counts2) + '\n')
+        # f.write('Left Unity ' + str(candidate_vote_counts3) + '\n')
+        # f.close()
 
-        bar1 = plt.bar(range(1, 52), candidate_vote_counts3, color="r")
-        bar2 = plt.bar(range(1, 52), candidate_vote_counts1, color="y")
-        bar3 = plt.bar(range(1, 52), candidate_vote_counts2, color="b")
+        bar1 = plt.bar(range(1, 45), candidate_vote_counts[0], color="r")
+        bar2 = plt.bar(range(1, 45), candidate_vote_counts[1], color="y")
+        bar3 = plt.bar(range(1, 45), candidate_vote_counts[2], color="b")
+        bar3 = plt.bar(range(1, 45), candidate_vote_counts[3], color="purple")
+        bar3 = plt.bar(range(1, 45), candidate_vote_counts[4], color="green")
+#        bar3 = plt.bar(range(1, 45), candidate_vote_counts[5], color="orange")
 
-        plt.legend((bar1, bar2, bar3), ("Momentum", "Unaligned", "Left Unity"))
+        #plt.legend((bar1, bar2, bar3), ("Momentum", "Unaligned", "Left Unity"))
         plt.title("Vote Distribution for " + candidates[candidate_index])
         plt.xlabel("Score Assigned")
         plt.ylabel("Number of Votes")
         plt.ylim((0, 85))
-        plt.savefig('output_files/vote_counts/Images/' + candidates[candidate_index] + ".png")
+        plt.savefig('output_files/2021/vote_counts/images/' + candidates[candidate_index] + ".png")
         plt.clf()
 
 
 def print_pca_components(pca):
     for i in range(len(pca.components_)):
-        f = open('output_files/pca_components/textfiles/component' + str(i+1) + '.txt', "w")
+        f = open('output_files/2021/pca_components/textfiles/component' + str(i+1) + '.txt', "w")
         f.write(str(pca.components_[i]))
         f.close()
 
 
 def print_totals(pca, cluster_counts):
-    f = open('output_files/2019/totals.txt', 'w')
+    f = open('output_files/2021/totals.txt', 'w')
     print(pca.noise_variance_)
     print(pca.explained_variance_)
 
-    cluster_titles = ['Momentum', 'Left Unity', 'Unaligned']
+    #cluster_titles = ['Momentum', 'Left Unity', 'Unaligned']
 
     f.write('Ballot Analysis Totals')
 
     f.write('\n\nCluster Counts\n')
     for cluster in range(len(cluster_counts)):
-        f.write('Voters in ' + str(cluster_titles[cluster]) + ': ' + str(cluster_counts[cluster]) + '\n')
+        f.write('Voters in ' + str(cluster) + ': ' + str(cluster_counts[cluster]) + '\n')
 
     f.write('\n\n\nExplained Variance Ratios by Component\n')
     for component in range(len(pca.explained_variance_ratio_)):
