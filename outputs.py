@@ -104,8 +104,7 @@ def plot_vote_counts(clusters, candidates, cluster_names):
             clustered_bars.append(bar)
 
         f.close()
-        if candidates[candidate_index] == "Anlin Wang":
-            print("hello")
+
         plt.legend(clustered_bars, list(cluster_names.keys()))
         plt.title("Vote Distribution for " + candidates[candidate_index])
         plt.xlabel("Score Assigned")

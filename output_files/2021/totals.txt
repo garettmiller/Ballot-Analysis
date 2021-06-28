@@ -1,9 +1,9 @@
 Ballot Analysis Totals
 
 Cluster Counts
-Voters in LU minus B&R?: 85
+Voters in LU minus B&R: 85
 Voters in Momentum: 72
-Voters in Paul/Labor?: 52
+Voters in Name Recognition?: 52
 Voters in LU: 78
 Voters in Unaligned: 25
 Voters in B&R + SA: 20
