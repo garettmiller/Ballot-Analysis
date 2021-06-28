@@ -1,12 +1,12 @@
 Ballot Analysis Totals
 
 Cluster Counts
-Voters in 0: 79
-Voters in 1: 70
-Voters in 2: 25
-Voters in 3: 22
-Voters in 4: 85
-Voters in 5: 51
+Voters in LU minus B&R?: 85
+Voters in Momentum: 72
+Voters in Paul/Labor?: 52
+Voters in LU: 78
+Voters in Unaligned: 25
+Voters in B&R + SA: 20
 
 
 
