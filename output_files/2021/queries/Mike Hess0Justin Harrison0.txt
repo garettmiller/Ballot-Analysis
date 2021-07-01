@@ -1,0 +1,10 @@
+This file contains all voters who voted for Justin Harrison at position 0 and 
+
+Voter 234 in B&R + SA: ['Mike Hess', 'Justin Harrison', 'K.T. Liberato', 'Dave Fox', 'Paul Prescod', 'Amanda Fox', 'Ron Joseph', 'Anlin Wang', 'John Campbell']
+Voter 250 in B&R + SA: ['Mike Hess', 'Justin Harrison', 'K.T. Liberato', 'Bill Bradley', 'John Campbell', 'Dave Fox', 'Amanda Fox', 'Ethan Hill', 'Anlin Wang', 'Ron Joseph', 'Paul Prescod', 'Michele Rossi', 'Shawn Hogan', 'Sal H', 'Matthew Zanowic', 'Max Bienstock', 'Mike Dewar']
+Voter 306 in Name Recognition?: ['Mike Hess', 'Dave Fox']
+Voter 13 in B&R + SA: ['Justin Harrison', 'Mike Hess', 'Bill Bradley', 'Amanda Fox', 'Dave Fox', 'Ethan Hill', 'K.T. Liberato', 'Paul Prescod']
+Voter 25 in B&R + SA: ['Justin Harrison', 'Mike Hess', 'Bill Bradley', 'John Campbell', 'Dave Fox', 'Amanda Fox', 'K.T. Liberato', 'Ethan Hill', 'Paul Prescod', 'Anlin Wang', 'Francisco Diez', 'Sal H', 'Julia Alekseyeva', 'Meag Jae Kaman', 'Austin Binns', 'Melissa Duvelsdorf', 'Ron Joseph', 'Aliyah Bixby-Driesen']
+Voter 38 in Name Recognition?: ['Justin Harrison', 'Mike Hess', 'Mike Dewar', 'Josh Millhouse', 'Bill Bradley', 'Francisco Diez', 'K.T. Liberato', 'Paul Prescod']
+Voter 52 in B&R + SA: ['Justin Harrison', 'Bill Bradley', 'Daisy Confoy', 'Mike Dewar', 'Dave Fox', 'Mike Hess', 'Ethan Hill', 'Shawn Hogan']
+Voter 166 in Unaligned: ['Justin Harrison', 'Mike Hess', 'K.T. Liberato', 'Amanda Fox', 'Bill Bradley', 'John Campbell', 'Dave Fox', 'Ethan Hill', 'Sam Layding', 'Sanwal Yousaf', 'Francisco Diez', 'Paul Prescod', 'Anlin Wang', 'Ron Joseph', 'Andrew Knox', 'Josh Millhouse', 'Matthew Zanowic', 'Mike Dewar', 'Sal H', 'Aliyah Bixby-Driesen', 'Matt Chewning', 'Max Bienstock', 'Daisy Confoy', 'Will M', 'Katie Bohri', 'Melissa Duvelsdorf', 'Sepideah Mohsenian-Rahman', 'Jenna Gould', 'Rebecca Johnson', 'Tyler Boyd-Meredith', 'Shawn Hogan', 'Jarek Ervin', 'Austin Binns', 'Julia Alekseyeva', 'Meag Jae Kaman', 'Jason L', 'Sean Frederick Mason', 'Melissa Naschek', 'Patrick Wargo', 'Emily Berkowitz', 'Michele Rossi', 'Isaac Rabbani', 'Erik L', 'Diane Isser']

@@ -1,0 +1,5 @@
+Voting Guides
+
+Momentum #1: ['Diane Isser', 'Paul Prescod', 'Melissa Naschek', 'Jarek Ervin', 'Andrew Knox', 'Erik L', 'Josh Millhouse', 'Jenna Gould', 'Sean Frederick Mason', 'Jason L', 'Isaac Rabbani', 'Tyler Boyd-Meredith', 'Max Bienstock', 'Katie Bohri', 'Bill Bradley', 'K.T. Liberato', 'Dave Fox']
+Momentum #2: ['Diane Isser', 'Katie Bohri', 'Paul Prescod', 'Max Bienstock', 'Tyler Boyd-Meredith', 'Jason L', 'Jenna Gould', 'Isaac Rabbani', 'Sean Frederick Mason', 'Josh Millhouse', 'Andrew Knox', 'Jarek Ervin', 'Melissa Naschek', 'Erik L', 'John Campbell', 'Bill Bradley', 'K.T. Liberato', 'Ethan Hill', 'Dave Fox', 'Amanda Fox']
+B&R: ['Ethan Hill', 'Dave Fox', 'John Campbell', 'Amanda Fox', 'Bill Bradley', 'K.T. Liberato', 'Paul Prescod', 'Aliyah Bixby-Driesen', 'Mike Hess', 'Shawn Hogan', 'Max Bienstock', 'Justin Harrison', 'Francisco Diez']

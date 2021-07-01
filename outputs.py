@@ -6,87 +6,45 @@ def write_candidate_and_value(f, candidates, values):
         f.write(candidates[i] + ': ' + str(values[i]) + '\n')
 
 
-def print_important_components(pca, candidates):
-    for i in range(6):
-        print('Principle Component ' + str(i+1))
-        component = pca.components_[i]
-        for j in range(len(component)):
-            if component[j] > .1 or component[j] < -.1:
-                print(candidates[j] + ': ' + str(component[j]))
-        print('\n')
-
-
 def plot_important_components(pca, candidates):
     for i in range(6):
         component = pca.components_[i]
         important_candidates = []
         important_values = []
         for j in range(len(component)):
-            if component[j] > .175 or component[j] < -.175:
+            if component[j] > .16 or component[j] < -.16:
                 important_candidates.append(candidates[j])
                 important_values.append(component[j])
 
         plt.figure(figsize=(10, 10))
         plt.bar(important_candidates, important_values)
-        plt.xticks(rotation = 30)
+        plt.xticks(rotation=30)
         plt.title("PCA Component " + str(i + 1) + " Most Important Candidates")
         plt.xlabel("Candidate")
         plt.ylabel("Candidate's Relative Alignment to Component")
 
-        plt.savefig('output_files/2021/pca_components/component' + str(i + 1) + '.png')
+        plt.savefig('output_files/2021/pca_components/graphs/component' + str(i + 1) + '.png')
 
 
-def plot_pca_ballots(cluster1, cluster2, cluster3, cluster4, cluster5, cluster6, rotated_slates, cluster_names):
+def plot_pca_ballots(clusters, rotated_slates, cluster_names):
     legend_labels = list(cluster_names.keys())
+    groups = []
+
+    for i in range(len(clusters)):
+        color = list(cluster_names.values())[i]
+        group, = plt.plot(clusters[i][:, 1], clusters[i][:, 2], color + 'o')
+        groups.append(group)
+
     legend_labels.append("Slate Voting Guides")
+    slates, = plt.plot(rotated_slates[:, 1], rotated_slates[:, 2], 'k*')
+    groups.append(slates)
 
-    group1, = plt.plot(cluster1[:, 0], cluster1[:, 1], 'ro')
-    group2, = plt.plot(cluster2[:, 0], cluster2[:, 1], 'yo')
-    group3, = plt.plot(cluster3[:, 0], cluster3[:, 1], 'bo')
-    group4, = plt.plot(cluster4[:, 0], cluster4[:, 1], 'mo')
-    group5, = plt.plot(cluster5[:, 0], cluster5[:, 1], 'co')
-    group6, = plt.plot(cluster6[:, 0], cluster6[:, 1], 'go')
-    group7, = plt.plot(rotated_slates[:, 0], rotated_slates[:, 1], 'k*')
-    plt.legend([group1, group2, group3, group4, group5, group6, group7], legend_labels)
-    plt.title("Voter Plot Principal Axes 1 and 2")
-    plt.xlabel("Principal Axis 1: Caucus")
-    plt.ylabel("Principal Axis 2: Buxmont")
-    plt.savefig('output_files/2021/vote_plots/PCA12.png')
+    plt.legend(groups, legend_labels)
+    plt.title("Voter Plot Principal Axes 2 and 3")
+    plt.xlabel("Principal Axis 2: LU")
+    plt.ylabel("Principal Axis 3: Unsure")
+    plt.savefig('output_files/2021/vote_plots/PCA23.png')
     plt.clf()
-
-    # group1, = plt.plot(cluster1[:, :1], cluster1[:, 2:3], 'yo')
-    # group2, = plt.plot(cluster2[:, :1], cluster2[:, 2:3], 'ro')
-    # group3, = plt.plot(cluster3[:, :1], cluster3[:, 2:3], 'bo')
-    # group4, = plt.plot(rotated_slates[:, :1], rotated_slates[:, 2:3], 'g*', label="Slate Voting Guides")
-    # plt.legend((group1, group2, group3, group4), ("Unaligned", "Bread and Roses", "Left Unity", "Slate Voting Guides"))
-    # plt.title("Voter Plot Principal Axes 1 and 3")
-    # plt.xlabel("Principal Axis 1: Caucus")
-    # plt.ylabel("Principal Axis 3: Uncast Votes")
-    # #plt.legend(["Unaligned", "Left Unity", "Momentum", "Slate Voting Guides"])
-    # plt.savefig('output_files/2021/vote_plots/PCA13.png')
-    # plt.clf()
-    #
-    # group1, = plt.plot(cluster1[:, :1], cluster1[:, 5:6], 'yo')
-    # group2, = plt.plot(cluster2[:, :1], cluster2[:, 5:6], 'ro')
-    # group3, = plt.plot(cluster3[:, :1], cluster3[:, 5:6], 'bo')
-    # group4, = plt.plot(rotated_slates[:, :1], rotated_slates[:, 5:6], 'g*', label="Slate Voting Guides")
-    # plt.legend((group1, group2, group3, group4), ("Unaligned", "Bread and Roses", "Left Unity", "Slate Voting Guides"))
-    # plt.title("Voter Plot Principal Axes 1 and 6")
-    # plt.xlabel("Principal Axis 1: Caucus")
-    # plt.ylabel("Principal Axis 6: Identity")
-    # #plt.legend(["Unaligned", "Left Unity", "Momentum", "Slate Voting Guides"])
-    # plt.savefig('output_files/2021/vote_plots/PCA16.png')
-    # plt.clf()
-
-
-def print_slates(candidates, momentum_slate, left_unity_slate):
-    print("Bread and Roses Slate")
-    for x in momentum_slate[0]:
-        print(candidates[x - 1])
-
-    print("\nLeft Unity Slate")
-    for x in left_unity_slate[0]:
-        print(candidates[x - 1])
 
 
 def plot_vote_counts(clusters, candidates, cluster_names):
@@ -114,22 +72,18 @@ def plot_vote_counts(clusters, candidates, cluster_names):
         plt.clf()
 
 
-def print_pca_components(pca):
+def write_pca_components(pca, candidates):
     for i in range(len(pca.components_)):
         f = open('output_files/2021/pca_components/textfiles/component' + str(i+1) + '.txt', "w")
-        f.write(str(pca.components_[i]))
+        f.write("PCA Component " + str(i + 1) + '\n\n')
+        write_candidate_and_value(f, candidates, pca.components_[i])
         f.close()
 
 
 def print_totals(pca, cluster_counts, cluster_names):
     f = open('output_files/2021/totals.txt', 'w')
-    # print(pca.noise_variance_)
-    # print(pca.explained_variance_)
-
-    #cluster_titles = ['Momentum', 'Left Unity', 'Unaligned']
 
     f.write('Ballot Analysis Totals')
-
     f.write('\n\nCluster Counts\n')
     for cluster in range(len(cluster_counts)):
         f.write('Voters in ' + list(cluster_names.keys())[cluster] + ': ' + str(cluster_counts[cluster]) + '\n')
@@ -154,4 +108,38 @@ def write_diff_cluster_centers(cluster_centers, candidates, cluster_names, compa
     f.write(cluster_name_keys[compared_clusters[0]] + ' minus '+ cluster_name_keys[compared_clusters[1]] + ' Cluster Diff\n\n')
     write_candidate_and_value(f, candidates, cluster_centers[compared_clusters[0]] - cluster_centers[compared_clusters[1]])
     f.close()
+
+
+def get_ballot_string(ballot, candidates):
+    return str([candidates[i - 1] for i in ballot])
+
+
+def ballot_query(query_dictionary, ballots, cluster_labels, cluster_names, candidates):
+    file_name = 'output_files/2021/queries/'
+    description_string = ''
+    candidate_names = list(candidates.values())
+    selected_voter_indices = []
+
+    for name in list(query_dictionary.keys()):
+        candidate_index = 0
+
+        for i in range(len(candidate_names)):
+            if name == candidate_names[i]:
+                candidate_index = i + 1
+                break
+        print(candidate_index)
+        for i in range(len(ballots)):
+            if len(ballots[i]) > query_dictionary[name] and  ballots[i][query_dictionary[name]] == candidate_index:
+                selected_voter_indices.append(i)
+
+        file_name = file_name + name + str(query_dictionary[name])
+        description_string = name + ' at position ' + str(query_dictionary[name]) + ' and '
+
+    file_name = file_name + '.txt'
+    f = open(file_name, "w")
+
+    f.write('This file contains all voters who voted for ' + description_string + '\n\n')
+    for i in selected_voter_indices:
+        f.write('Voter ' + str(i) + ' in ' + list(cluster_names.keys())[cluster_labels[i]] + ': ' + get_ballot_string(ballots[i], candidates) + '\n')
+
 
