@@ -1,4 +1,4 @@
-Unaligned Cluster  Location
+Unaligned (random) Cluster Location
 
 Julia Alekseyeva: 23.022761709801
 Emily Berkowitz: 21.091518601078022

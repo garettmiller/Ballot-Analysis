@@ -1,4 +1,4 @@
-LU-ish? Cluster  Location
+LU Cluster Location
 
 Julia Alekseyeva: 40.121348879076436
 Emily Berkowitz: 33.696246761414805

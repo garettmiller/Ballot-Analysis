@@ -32,18 +32,18 @@ def plot_pca_ballots(clusters, rotated_slates, cluster_names):
 
     for i in range(len(clusters)):
         color = list(cluster_names.values())[i]
-        group, = plt.plot(clusters[i][:, 1], clusters[i][:, 2], color + 'o')
+        group, = plt.plot(clusters[i][:, 0], clusters[i][:, 1], color + 'o')
         groups.append(group)
 
     legend_labels.append("Slate Voting Guides")
-    slates, = plt.plot(rotated_slates[:, 1], rotated_slates[:, 2], 'k*')
+    slates, = plt.plot(rotated_slates[:, 0], rotated_slates[:, 1], 'k*')
     groups.append(slates)
 
     plt.legend(groups, legend_labels)
-    plt.title("Voter Plot Principal Axes 2 and 3")
-    plt.xlabel("Principal Axis 2: LU")
+    plt.title("Voter Plot Principal Axes 1 and 2")
+    plt.xlabel("Principal Axis 1: LU vs. Momentum")
     plt.ylabel("Principal Axis 3: Unsure")
-    plt.savefig('output_files/2021/vote_plots/PCA23.png')
+    plt.savefig('output_files/2021/vote_plots/PCA12.png')
     plt.clf()
 
 

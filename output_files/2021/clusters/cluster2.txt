@@ -1,4 +1,4 @@
-Momentum Cluster  Location
+Momentum Cluster Location
 
 Julia Alekseyeva: 0.44946965267183714
 Emily Berkowitz: 0.8347463169976344
