@@ -13,12 +13,13 @@ class OpaVote:
         self.output_location = output_location
         self.cluster_labels = np.empty()
         self.cluster_centers = np.empty()
+        self.num_clusters = 0
 
-        self.ballots, self.candidates, self.num_candidates, self.num_seats = self.__get_ballots_and_candidates(ballot_location)
+        self.ballots, self.candidates, self.num_candidates, self.num_seats = self.__read_ballots_and_candidates(ballot_location)
         self.vectorized_ballots = self.__vectorize_matrix(self.ballots, self.num_candidates)
         self.pca_ballots, self.pca = self.__do_pca(self.vectorized_ballots)
 
-    def __get_ballots_and_candidates(self, file_address):
+    def __read_ballots_and_candidates(self, file_address):
         """Get ballots and candidates as lists"""
         lines, num_candidates, num_seats = self.__read_ballot_file(file_address)
 
@@ -89,18 +90,17 @@ class OpaVote:
 
         return transformed_slates
 
-    def plot_cluster_number_variances(self):
-        """Plot graph of explained variance vs number of nodes"""
-        cluster_variances = []
-        cluster_choices = range(1, 10)
+    def write_pca_variances(self):
+        """Write text file with PCA components and percent variance explained for each"""
+        outputs.write_pca_variances(self.pca)
 
-        for i in cluster_choices:
-            KMeans_model = KMeans(n_clusters=i, n_init=100).fit(self.pca_ballots)
-            cluster_variances.append(
-                100 - sum(np.min(cdist(self.pca_ballots, KMeans_model.cluster_centers_, 'euclidean'), axis=1)) /
-                self.pca_ballots.shape[0])
+    def write_pca_components_by_candidate(self):
+        """Write text files with new PCA axes and each components representation on that axis"""
+        outputs.write_pca_components(self.pca, self.candidates)
 
-        outputs.plot_cluster_number_variances(cluster_choices, cluster_variances)
+    def plot_important_pca_components(self, threshold=.16):
+        """Plot the most important axes of the import PCA components"""
+        outputs.plot_important_pca_components(self.pca, self.candidates, threshold)
 
     def generate_clusters(self, num_clusters):
         """Generate clusters using passed in number and save the labels and centers"""
@@ -123,13 +123,22 @@ class OpaVote:
         outputs.write_cluster_centers(self.pca.inverse_transform(self.cluster_centers_), self.candidates, cluster_names)
 
     def write_diff_cluster_centers(self, compared_clusters):
-        """Subtract one cluster location from another and write to text file so """
+        """Subtract one cluster location from another and write to text file so clusters can be compared"""
         reverted_clusters = self.pca.inverse_transform(self.cluster_centers)
         outputs.write_diff_cluster_centers(reverted_clusters, self.candidates, self.cluster_names, compared_clusters)
 
-    def query_ballots(self, query):
-        """Write text file with all ballots with candidates at the specified voting positions"""
-        outputs.ballot_query(query, self.ballots, self.cluster_labels, self.cluster_names, self.candidates)
+    def plot_cluster_number_variances(self):
+        """Plot graph of explained variance vs number of nodes"""
+        cluster_variances = []
+        cluster_choices = range(1, 10)
+
+        for i in cluster_choices:
+            KMeans_model = KMeans(n_clusters=i, n_init=100).fit(self.pca_ballots)
+            cluster_variances.append(
+                100 - sum(np.min(cdist(self.pca_ballots, KMeans_model.cluster_centers_, 'euclidean'), axis=1)) /
+                self.pca_ballots.shape[0])
+
+        outputs.plot_cluster_number_variances(cluster_choices, cluster_variances)
 
     def __split_by_cluster(self, ballots):
         """Split ballots into separate indices in an array"""
@@ -160,18 +169,6 @@ class OpaVote:
         cluster_counts = self.__get_cluster_counts(self.cluster_labels, len(self.cluster_centers))
         outputs.write_cluster_counts(cluster_counts, cluster_names)
 
-    def write_pca_variances(self):
-        """Write text file with PCA components and percent variance explained for each"""
-        outputs.write_pca_variances(self.pca)
-
-    def write_pca_components_by_candidate(self):
-        """Write text files with new PCA axes and each components representation on that axis"""
-        outputs.write_pca_components(self.pca, self.candidates)
-
-    def plot_important_pca_components(self, threshold=.16):
-        """Plot the most important axes of the import PCA components"""
-        outputs.plot_important_pca_components(self.pca, self.candidates, threshold)
-
     def plot_candidate_vote_distributions(self, cluster_names):
         """Calculate the number of votes for each candidate at each position and plot the distribution"""
         clustered_ballots = self.__split_clusters(self.vectorized_ballots)
@@ -194,4 +191,8 @@ class OpaVote:
                 counts[i][vote] += 1
 
         return counts
+
+    def query_ballots(self, query):
+        """Write text file with all ballots with candidates at the specified voting positions"""
+        outputs.ballot_query(query, self.ballots, self.cluster_labels, self.cluster_names, self.candidates)
 

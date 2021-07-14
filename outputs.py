@@ -139,7 +139,7 @@ def ballot_query(query_dictionary, ballots, cluster_labels, cluster_names, candi
             if name == candidate_names[i]:
                 candidate_index = i + 1
                 break
-        print(candidate_index)
+        
         for i in range(len(ballots)):
             if len(ballots[i]) > query_dictionary[name] and  ballots[i][query_dictionary[name]] == candidate_index:
                 selected_voter_indices.append(i)
