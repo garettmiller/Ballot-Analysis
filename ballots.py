@@ -27,8 +27,8 @@ pca_slates = OpaVote.transform_slates(slates)
 #OpaVote.plot_cluster_number_variances()
 #OpaVote.generate_clusters(num_clusters)
 OpaVote.load_clusters()
-OpaVote.write_diff_cluster_centers([3, 0])
-OpaVote.plot_ballots_pca(pca_slates, 0, 2, "LU vs. Momentum", "B&R + SA")
+OpaVote.write_diff_cluster_centers(cluster_names, [3, 0])
+OpaVote.plot_ballots_pca(pca_slates, cluster_names, 0, 2, "LU vs. Momentum", "B&R + SA")
 OpaVote.write_cluster_counts(cluster_names)
 OpaVote.plot_candidate_vote_distributions(cluster_names)
 
@@ -36,6 +36,6 @@ OpaVote.plot_candidate_vote_distributions(cluster_names)
 query = {
     "Katie Bohri": 0
 }
-opavote.query_ballots(query)
+opavote.query_ballots(query, cluster_names)
 
 
