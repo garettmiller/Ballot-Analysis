@@ -1,5 +1,6 @@
 import numpy as np
 from pathlib import Path
+import random
 from scipy.spatial.distance import cdist
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
@@ -252,4 +253,17 @@ class OpaVote:
 
         file_location = file_location + ".txt"
         outputs.write_queried_ballots(description_string, selected_voter_indices, self.ballots, candidate_names, self.cluster_labels, cluster_names, file_location)
+
+    def generate_cluster_name_dictionary(self, num_clusters):
+        """Generate default cluster name dictionary if you haven't found names for them yet"""
+        cluster_names = {}
+        for i in range(num_clusters):
+            cluster_names["Cluster " + str(i)] = self.__get_random_color()
+        return cluster_names
+
+    def __get_random_color(self):
+        r = random.random()
+        g = random.random()
+        b = random.random()
+        return r, g, b
 

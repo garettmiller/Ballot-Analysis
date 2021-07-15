@@ -23,6 +23,9 @@ OpaVote.write_pca_components_by_candidate()
 slates = [br_slate, lu_slate]
 pca_slates = OpaVote.transform_slates(slates)
 
+# Use this if you don't have
+#cluster_names = OpaVote.generate_cluster_name_dictionary(num_clusters)
+
 # Load in clusters and make cluster plots
 #OpaVote.plot_cluster_number_variances()
 #OpaVote.generate_clusters(num_clusters)

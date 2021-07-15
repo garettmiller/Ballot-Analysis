@@ -139,6 +139,11 @@ def write_queried_ballots(description_string, selected_voter_indices, ballots, c
 
     f.write("This file contains all voters who voted for " + description_string + "\n\n")
     for i in selected_voter_indices:
-        f.write("Voter " + str(i) + " in " + list(cluster_names.keys())[cluster_labels[i]] + ": " + get_ballot_string(ballots[i], candidates) + "\n")
+        cluster_name = get_cluster_name_by_index(cluster_names, cluster_labels[i])
+        f.write("Voter " + str(i) + " in " + cluster_name + ": " + get_ballot_string(ballots[i], candidates) + "\n")
+
+
+def get_cluster_name_by_index(cluster_names, cluster_index):
+    return list(cluster_names.keys())[cluster_index]
 
 
