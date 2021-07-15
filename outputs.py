@@ -30,7 +30,7 @@ def plot_important_pca_components(pca, candidates, threshold, file_locations):
 def write_pca_components_by_candidate(pca, candidates, file_locations):
     """Write text files with new PCA axes and each components representation on that axis"""
     for i in range(len(file_locations)):
-        f = open(file_locations, "w")
+        f = open(file_locations[i], "w")
         f.write("PCA Component " + str(i + 1) + "\n\n")
         write_candidate_and_value(f, candidates, pca.components_[i])
         f.close()
@@ -66,7 +66,7 @@ def write_cluster_counts(cluster_counts, cluster_names, file_location):
 
 def write_cluster_centers(cluster_centers, candidates, cluster_names, file_locations):
     for i in range(len(file_locations)):
-        f = open(file_locations, "w")
+        f = open(file_locations[i], "w")
         f.write(list(cluster_names.keys())[i] + " Cluster Location\n\n")
         write_candidate_and_value(f, candidates, cluster_centers[i])
         f.close()
@@ -80,20 +80,20 @@ def write_diff_cluster_centers(cluster_centers, candidates, cluster_names, compa
     f.close()
 
 
-def plot_ballots_pca(clusters, pca_slates, cluster_names, x_pca_index, y_pca_index, x_pca_description, y_pca_description, file_location):
+def plot_ballots_pca(clustered_pca_ballots, pca_slates, cluster_names, x_pca_index, y_pca_index, x_pca_description, y_pca_description, file_location):
     """Create 2 dimensional plots using the selected PCA components. Clusters are color-coded"""
     legend_labels = list(cluster_names.keys())
     x_index_label = str(x_pca_index + 1)
     y_index_label = str(y_pca_index + 1)
     groups = []
 
-    for i in range(len(clusters)):
+    for i in range(len(clustered_pca_ballots)):
         color = list(cluster_names.values())[i]
-        group, = plt.plot(clusters[i][:, 0], clusters[i][:, 2], color + "o")
+        group, = plt.plot(clustered_pca_ballots[i][:, x_pca_index], clustered_pca_ballots[i][:, y_pca_index], c=color, marker='o', linestyle='')
         groups.append(group)
 
     legend_labels.append("Slate Voting Guides")
-    slates, = plt.plot(pca_slates[:, 0], pca_slates[:, 2], "k*")
+    slates, = plt.plot(pca_slates[:, x_pca_index], pca_slates[:, y_pca_index], c='black', marker='*', linestyle='')
     groups.append(slates)
 
     plt.legend(groups, legend_labels)

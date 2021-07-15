@@ -83,15 +83,15 @@ class OpaVote:
 
     def transform_slates(self, slates):
         """Vectorize and perform PCA on slates"""
-        transformed_slates = np.empty(len(slates))
+        pca_slates = [0] * len(slates)
 
         for i in range(len(slates)):
             slate_keys = self.__get_slate_keys(slates[i])
             vectorized_br_slate = self.__vectorize_matrix(slate_keys, self.num_candidates)
-            rotated_slate = self.pca.transform(vectorized_br_slate)
-            transformed_slates[i] = rotated_slate[0]
+            pca_slate = self.pca.transform(vectorized_br_slate)
+            pca_slates[i] = pca_slate[0]
 
-        return transformed_slates
+        return np.array(pca_slates)
 
     def write_pca_variances(self):
         """Write text file with PCA components and percent variance explained for each"""
@@ -142,7 +142,9 @@ class OpaVote:
 
     def write_diff_cluster_centers(self, cluster_names, compared_clusters):
         """Subtract one cluster location from another and write to text file so clusters can be compared"""
-        file_location = self.output_location + "clusters/diffs/clusterdiff" + str(compared_clusters[0] + 1) + str(
+        file_dir = self.output_location + "clusters/diffs/"
+        Path(file_dir).mkdir(parents=True, exist_ok=True)
+        file_location = file_dir + "clusterdiff" + str(compared_clusters[0] + 1) + str(
             compared_clusters[1] + 1) + ".txt"
 
         reverted_clusters = self.pca.inverse_transform(self.cluster_centers)
@@ -186,7 +188,7 @@ class OpaVote:
         """Create 2 dimensional plots using the selected PCA components. Clusters are color-coded."""
         file_dir = self.output_location + "vote_plots/"
         Path(file_dir).mkdir(parents=True, exist_ok=True)
-        file_location = file_dir + "vote_plots/PCA" + str(x_pca_index) + str(y_pca_index) + ".png"
+        file_location = file_dir + "PCA" + str(x_pca_index + 1) + str(y_pca_index + 1) + ".png"
 
         clustered_pca_ballots = self.__split_by_cluster(self.pca_ballots)
         outputs.plot_ballots_pca(np.array(clustered_pca_ballots), pca_slates, cluster_names, x_pca_index, y_pca_index, x_pca_description, y_pca_description, file_location)
@@ -202,7 +204,7 @@ class OpaVote:
         """Calculate the number of votes for each candidate at each position and plot the distribution"""
         text_file_dir = self.output_location + "vote_counts/textfiles/"
         Path(text_file_dir).mkdir(parents=True, exist_ok=True)
-        text_file_locations = [text_file_dir + + candidate + ".txt" for candidate in list(self.candidates.values())]
+        text_file_locations = [text_file_dir + candidate + ".txt" for candidate in list(self.candidates.values())]
 
         graph_file_dir = self.output_location + "vote_counts/images/"
         Path(graph_file_dir).mkdir(parents=True, exist_ok=True)
@@ -215,7 +217,6 @@ class OpaVote:
     def __get_clustered_vote_counts(self, clustered_ballots):
         """Count the number of votes in each position for each candidate by the clustered ballots passed in.
         Returns an array of clustered counts"""
-
         return [self.__count_cluster_votes_for_candidate(np.array(ballots_in_cluster)) for ballots_in_cluster in clustered_ballots]
 
     def __count_cluster_votes_for_candidate(self, ballots_in_cluster):
@@ -258,7 +259,7 @@ class OpaVote:
         """Generate default cluster name dictionary if you haven't found names for them yet"""
         cluster_names = {}
         for i in range(num_clusters):
-            cluster_names["Cluster " + str(i)] = self.__get_random_color()
+            cluster_names["Cluster " + str(i + 1)] = self.__get_random_color()
         return cluster_names
 
     def __get_random_color(self):

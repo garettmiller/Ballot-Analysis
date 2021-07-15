@@ -1,0 +1,8 @@
+Ballot Analysis Totals
+
+Cluster Counts
+Voters in Cluster 1: 160
+Voters in Cluster 2: 72
+Voters in Cluster 3: 52
+Voters in Cluster 4: 28
+Voters in Cluster 5: 20
